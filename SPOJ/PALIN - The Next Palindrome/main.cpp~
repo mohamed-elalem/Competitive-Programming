@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+int t;
+string s;
+
+bool check_palin(string s) {
+  for(int i = 0; i < s.size() - i; i++) {
+    if(s[i] != s[s.size() - i - 1])
+      return false;
+  }
+  return true;
+}
+
+string getNextPalin(string s) {
+  int k = (s.size() - 1) / 2;
+  int diff = 1 - s.size() % 2;
+  if(check_palin(s)) {
+    while(k >= 0 && s[k] == '9') {
+      s[k] = s[k + diff] = '0';
+      k--;
+      diff += 2;
+    }
+    if(k == -1) {
+      s[0] = '1';
+      s +="1";
+    }
+    else {
+      s[k] = s[k + diff] = s[k] + 1;
+    }
+    return s;
+  }
+  else {
+
+    while(k >= 0) {
+      s[k + diff] = s[k];
+      diff += 2;
+      k--;
+    }
+    k = (s.size() - 1) / 2;
+    diff = 1 - s.size() % 2;
+    while(k >= 0 && s[k] == '9') {
+      s[k] = s[k + diff] = '0';
+      k--;
+      diff += 2;
+    }
+    s[k] = s[k + diff] = s[k] + 1;
+    diff += 2;
+    
+    return s;
+  }
+}
+
+int main() {
+  cin >> t;
+  while(t--) {
+    cin >> s;
+    cout << getNextPalin(s) << endl;
+  }
+}
